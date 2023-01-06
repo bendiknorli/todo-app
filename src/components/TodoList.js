@@ -17,6 +17,7 @@ function TodoList() {
         from: { opacity: 1 },
         reverse: showFeedback,
         delay: 400,
+        onRest: () => setShowFeedback(false)
     })
 
     const addTodo = todo => {
