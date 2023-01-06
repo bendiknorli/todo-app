@@ -4,7 +4,7 @@ import { RiCloseCircleLine } from "react-icons/ri"
 import { TiEdit } from "react-icons/ti"
 
 
-function Todo({ todos, completeTodo, removeTodo, updateTodo }) {
+function Todo({ todos, completeTodo, removeTodo, updateTodo, history }) {
 
     const [edit, setEdit] = useState({
         id: null,
@@ -17,6 +17,17 @@ function Todo({ todos, completeTodo, removeTodo, updateTodo }) {
             id: null,
             value: ""
         })
+    }
+
+    if (history) {
+        return history.map((event, index) => (
+            <div className="todo-row" key={index}>
+                <div key={index}>
+                    {event}
+                </div>
+            </div>
+        )
+        )
     }
 
     if (edit.id) {
