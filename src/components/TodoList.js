@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Todo from './Todo'
 import TodoForm from './TodoForm'
+import History from './History'
 import { RiHistoryLine } from "react-icons/ri"
 import { BiArrowBack } from "react-icons/bi"
 import { useSpring, animated } from 'react-spring'
@@ -40,7 +41,6 @@ function TodoList() {
 
         setHistory(newHistory)
 
-        setFeedbackLabel("")
     }
 
     const updateTodo = (todoId, newValue) => {
@@ -71,7 +71,6 @@ function TodoList() {
 
         const newHistory = [`Removed "${removedElement.text}"`, ...history]
         setHistory(newHistory)
-        setFeedbackLabel("")
     }
 
     const completeTodo = id => {
@@ -88,8 +87,6 @@ function TodoList() {
 
     const showHistory = () => {
         setShowingHistory(!showingHistory)
-        console.log(history)
-        console.log(todos)
     }
 
     if (showingHistory) {
@@ -101,7 +98,7 @@ function TodoList() {
                         className="history-icon"
                         onClick={() => showHistory()} />
                 </div>
-                <Todo history={history} />
+                <History history={history} />
             </div>
         )
     }

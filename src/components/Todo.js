@@ -19,17 +19,6 @@ function Todo({ todos, completeTodo, removeTodo, updateTodo, history }) {
         })
     }
 
-    if (history) {
-        return history.map((event, index) => (
-            <div className="todo-row" key={index}>
-                <div key={index}>
-                    {event}
-                </div>
-            </div>
-        )
-        )
-    }
-
     if (edit.id) {
         return <TodoForm
             edit={edit}
