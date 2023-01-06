@@ -48,7 +48,7 @@ function TodoList() {
             return
         }
 
-        if (todos.find(element => element.text === newValue.text.trim())) {
+        if (todos.find(element => element.text === newValue.text.trim() && element.id !== todoId)) {
             setFeedbackLabel("This task already exists")
             setShowFeedback(true)
             return
