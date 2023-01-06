@@ -2,15 +2,31 @@ import React, { useState } from 'react'
 import Todo from './Todo'
 import TodoForm from './TodoForm'
 import { RiHistoryLine } from "react-icons/ri"
+import { useSpring, animated } from 'react-spring'
 
 function TodoList() {
 
     const [todos, setTodos] = useState([])
     const [history, setHistory] = useState([])
     const [showingHistory, setShowingHistory] = useState(false)
+    const [feedbackLabel, setFeedbackLabel] = useState("")
+    const [showFeedback, setShowFeedback] = useState(false)
+
+    const props = useSpring({
+        to: { opacity: 0 },
+        from: { opacity: 1 },
+        reverse: showFeedback,
+        delay: 400,
+    })
 
     const addTodo = todo => {
-        if (!todo.text || /^\s*$/.test(todo.text) || todos.find(element => element.text === todo.text.trim())) {
+        if (!todo.text || /^\s*$/.test(todo.text)) {
+            return
+        }
+
+        if (todos.find(element => element.text === todo.text.trim())) {
+            setFeedbackLabel("This task is already added")
+            setShowFeedback(true)
             return
         }
 
@@ -21,18 +37,26 @@ function TodoList() {
         const newHistory = [`Added "${todo.text}"`, ...history]
 
         setHistory(newHistory)
+
+        setFeedbackLabel("")
     }
 
     const updateTodo = (todoId, newValue) => {
         if (!newValue.text || /^\s*$/.test(newValue.text)) {
             return
         }
+
+        if (todos.find(element => element.text === newValue.text.trim())) {
+            setFeedbackLabel("This task already exists")
+            setShowFeedback(true)
+            return
+        }
+
         const oldElement = todos.find(todo => todo.id === todoId)
 
         setTodos(prev => prev.map(item => (item.id === todoId ? newValue : item)))
 
         const newHistory = [`Updated "${oldElement.text}" to "${newValue.text}"`, ...history]
-
 
         setHistory(newHistory)
     }
@@ -45,6 +69,7 @@ function TodoList() {
 
         const newHistory = [`Removed "${removedElement.text}"`, ...history]
         setHistory(newHistory)
+        setFeedbackLabel("")
     }
 
     const completeTodo = id => {
@@ -57,8 +82,6 @@ function TodoList() {
             return todo
         })
         setTodos(updatedTodos)
-
-
     }
 
     const showHistory = () => {
@@ -84,6 +107,9 @@ function TodoList() {
     return (
         <div>
             <h1>Things to do today</h1>
+            <animated.div style={props}>
+                <h3 className="feedback">{feedbackLabel}</h3>
+            </animated.div>
             <RiHistoryLine
                 className="history-icon"
                 onClick={() => showHistory()}
