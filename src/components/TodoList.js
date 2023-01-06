@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Todo from './Todo'
 import TodoForm from './TodoForm'
 import { RiHistoryLine } from "react-icons/ri"
+import { BiArrowBack } from "react-icons/bi"
 import { useSpring, animated } from 'react-spring'
 
 function TodoList() {
@@ -96,7 +97,7 @@ function TodoList() {
             <div>
                 <h1>History</h1>
                 <div className="icons">
-                    <RiHistoryLine
+                    <BiArrowBack
                         className="history-icon"
                         onClick={() => showHistory()} />
                 </div>
